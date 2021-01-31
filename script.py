@@ -1,10 +1,15 @@
-# assignment_azent
-#Merge The Data Scraped From Different Sources
+################################################################################################################
+#Script Name         : script.py
+#Created on          : 31st Jan 2021
+#Author	             : Subha Malakar
+#Purpose             : Script to merge the data scraped from different sources
+################################################################################################################
+
 #Import required packages
 import json
 from fuzzywuzzy import process
 
-#Open raw source files
+#Open raw source files (Replace '...' with file directory)
 with open('.../arizona-state-university-s1.json') as f:
     s1 = json.load(f)
 with open('.../arizona-state-university-s2.json') as f:
@@ -24,8 +29,8 @@ index_in_s1 = []
 index_in_s2 = []
 
 #Actual checks for similarity
-for i in range(len(e['programs'])):
-    highest = process.extractOne(e['programs'][i]['name'], course_name)
+for i in range(len(s1['programs'])):
+    highest = process.extractOne(s1['programs'][i]['name'], course_name)
     if highest[1]>90:
         if s1['programs'][i]['length_in_months'] == course_duration[course_name.index(highest[0])]  and \
                 s1['programs'][i]['level'] == course_level[course_name.index(highest[0])]:
@@ -46,6 +51,6 @@ for i in range(len(index_in_s1)):
 #Insert unique courses from S2 to S1
 s1['programs'].extend(s2['programs'])
 
-#Storing merged data into some other file
+#Storing merged data into some other file (Replace '...' with file directory)
 with open(".../arizona-state-university-s1_s2.json", "w") as outfile:
     json.dump(s1, outfile)
